@@ -1,4 +1,4 @@
 == Ruby on Rails - REST Api demo
 
-Quick and dirty implementation of a REST api for stories and chapters.
+Quick and dirty implementation of a REST api for experiences and chapters.
 To be used as a comparison of different frameworks
