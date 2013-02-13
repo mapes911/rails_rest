@@ -36,3 +36,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+def logged_in
+  @current_user = FactoryGirl.create(:user)
+  session[:user_id] = @current_user.id
+end
