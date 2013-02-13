@@ -22,7 +22,7 @@ class ExperiencesController < ApplicationController
 
     respond_to do |format|
       # format.html # index.html.erb
-      format.json { render json: @experience }
+      format.json { render :json => @experience.to_json(:include => :chapters ) }
     end
   end
 

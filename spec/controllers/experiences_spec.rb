@@ -47,6 +47,7 @@ describe ExperiencesController do
       response.should be_success
       experience = JSON.parse(response.body)
       experience['body'].should_not == ''
+      experience['chapters'].should_not == ''
     end
 
     it 'returns 404 for unknown experience' do
