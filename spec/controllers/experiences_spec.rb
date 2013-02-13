@@ -112,10 +112,11 @@ describe ExperiencesController do
       response.code.should == '403'
     end
 
-    it 'returns 403 for unknown experience' do
+    it 'returns 404 for unknown experience' do
       put :update, :format => :json, :id => 10000, experience: FactoryGirl.attributes_for(:experience)
       response.should_not be_success
-      response.code.should == '403'
+      # why is this returning 403????
+      response.code.should == '404'
     end    
   end
 
@@ -133,10 +134,11 @@ describe ExperiencesController do
       response.code.should == '403'
     end
 
-    it 'returns 403 for unknown experience' do
+    it 'returns 404 for unknown experience' do
       delete :destroy, :format => :json, :id => 10000, experience: FactoryGirl.attributes_for(:experience)
       response.should_not be_success
-      response.code.should == '403'
+      # why is this returning 403????
+      response.code.should == '404'
     end    
 
   end

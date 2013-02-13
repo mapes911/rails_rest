@@ -1,15 +1,8 @@
 class ChaptersController < ApplicationController
+  before_filter :signed_in_user
+  before_filter :correct_user
 
-  # GET /experiences/:experience_id/chapters
-  # GET /experiences/:experience_id/chapters.json
   def index
-    @experience = Experience.find(params[:experience_id])
-    @chapters = @experience.chapters
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @chapters }
-    end
   end
 
   def show
@@ -27,31 +20,31 @@ class ChaptersController < ApplicationController
     @experience = Experience.find(params[:experience_id])
     @chapter = @experience.chapters.build(params[:chapter])
     if @chapter.save
-      flash[:success] = "New Chapter created!!"
+      render json: {}, :status => 201 
+    else
+      render json: {}, :status => :unprocessable_entity
     end
-    # for now we always redirect back to the experience page
-    # this will not be when we go to an ajax creation
-    redirect_to @experience
   end
 
-  # PUT /chapters/1
-  # PUT /chapters/1.json
+  # PUT /experiences/:experience_id/chapters/1
+  # PUT /experiences/:experience_id/chapters/1.json
   def update
+    @experience = Experience.find(params[:experience_id])
     @chapter = Chapter.find(params[:id])
 
     respond_to do |format|
       if @chapter.update_attributes(params[:chapter])
-        format.html { redirect_to @chapter, notice: 'Chapter was successfully updated.' }
+        # format.html { redirect_to @chapter, notice: 'Chapter was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        # format.html { render action: "edit" }
         format.json { render json: @chapter.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /chapters/1
-  # DELETE /chapters/1.json
+  # DELETE /experiences/:experience_id/chapters/1
+  # DELETE /experiences/:experience_id/chapters/1.json
   def destroy
     @chapter = Chapter.find(params[:id])
     @chapter.destroy
@@ -61,4 +54,10 @@ class ChaptersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+    def correct_user
+      @experience = current_user.experiences.find_by_id(params[:experience_id])
+      render json: {}, :status => :forbidden if @experience.nil?
+    end  
 end
